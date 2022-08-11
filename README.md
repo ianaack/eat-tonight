@@ -1,2 +1,3 @@
-# eat-tonight
-This is a progressive web app to help my wife and I decide what to eat.
+# Are you Hungry?
+
+This is a Progressive Web Application to help my wife and I determine what to eat for dinner.
