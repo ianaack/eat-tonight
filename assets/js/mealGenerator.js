@@ -2,12 +2,11 @@ const buttonEl = document.getElementById("buttonEl");
 const mealCard = document.getElementById("mealCard");
 
 var handleSubmit = () => {
-	console.log("clicked");
 	const options = {
 		method: "GET",
 		headers: {
-			"X-RapidAPI-Key": "3156cd22admshc4a5e2ccfd5ce63p190e57jsn8263dceb806a",
-			"X-RapidAPI-Host": "themealdb.p.rapidapi.com",
+			"X-RapidAPI-Key": process.env.RapidAPIKey,
+			"X-RapidAPI-Host": process.env.RapidAPIHost,
 		},
 	};
 
@@ -16,7 +15,6 @@ var handleSubmit = () => {
 			if (response.ok) {
 				response.json().then(function (data) {
 					getMeals(data);
-					console.log(data);
 				});
 			} else {
 				console.log("Problem with the Rapid API response");
