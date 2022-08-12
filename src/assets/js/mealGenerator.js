@@ -1,7 +1,7 @@
 const buttonEl = document.getElementById("buttonEl");
 const mealCard = document.getElementById("mealCard");
 
-var handleSubmit = () => {
+const handleSubmit = () => {
 	const options = {
 		method: "GET",
 		headers: {
@@ -25,7 +25,7 @@ var handleSubmit = () => {
 		});
 };
 
-var getMeals = (data) => {
+const getMeals = (data) => {
 	if (data.length === 0) {
 		mealCard.textContent = "No meals found.";
 		return;
