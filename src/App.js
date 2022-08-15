@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
 function App() {
-	const [meals, setMeals] = useState({});
+	const [data, setData] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
 	const fetchData = () => {
 		const options = {
@@ -12,19 +14,25 @@ function App() {
 			},
 		};
 
-		fetch("https://themealdb.p.rapidapi.com/random.php", options)
+		fetch(`https://themealdb.p.rapidapi.com/random.php`, options)
 			.then((response) => {
-				if (response.ok) {
-					return response.json();
+				if (!response.ok) {
+					throw new Error(
+						`This is an HTTP error: The status is ${response.status}`
+					);
 				}
-				throw response;
+				return response.json();
 			})
-			.then((data) => {
-				setMeals(data);
-				console.log(data.meals[0].strMeal);
+			.then((actualData) => {
+				setData(actualData);
+				setError(null);
 			})
 			.catch((err) => {
-				console.error("API Error", err);
+				setError(err.message);
+				setData(null);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
 	};
 
@@ -34,6 +42,28 @@ function App() {
 			<button className="btn btn-dark" onClick={fetchData}>
 				Spin the Wheel!
 			</button>
+			{loading && <div>Click the button</div>}
+			{error && <div>{`There is a problem fetching the data - ${error}`}</div>}
+			<div>
+				{data &&
+					data.meals.map(
+						({ idMeal, strMeal, strMealThumb, strInstructions }) => (
+							<div key={idMeal}>
+								<div className="card">
+									<div className="card-body">
+										<img
+											src={strMealThumb}
+											alt={strMealThumb}
+											className="card-img-top"
+										></img>
+										<h3 className="card-title">{strMeal}</h3>
+										<p className="card-text">{strInstructions}</p>
+									</div>
+								</div>
+							</div>
+						)
+					)}
+			</div>
 		</div>
 	);
 }
